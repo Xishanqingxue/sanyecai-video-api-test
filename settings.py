@@ -59,8 +59,8 @@ PUBLIC_PASSWORD = '123abc'
 
 # 测试账户配置
 TEST_NICKNAME = '你不信命丶'
-TEST_UNION_ID = ''
-TEST_HEAD_PIC = ''
+TEST_UNION_ID = 'dw_22017544'
+TEST_HEAD_PIC = 'https://pic.t.dwtv.tv/files/images/heads/c8/cf/20180509145849297.jpg'
 TEST_SOURCE = 1
 
 DW_ROOM_ID = '110101'
