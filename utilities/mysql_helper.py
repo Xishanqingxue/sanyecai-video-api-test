@@ -155,13 +155,15 @@ class MysqlHelper(object):
 #         """
 #         base_mysql.execute("delete from lot_order_detail where order_id=%s",params=(order_id))
 #
-#     def delete_user_auth(self,mobile):
-#         """
-#         清除用户实名认证信息
-#         :param mobile:
-#         :return:
-#         """
-#         base_mysql.execute('delete from lot_user_auth where mobile=%s',params=(mobile))
+    def delete_user_auth(self,mobile):
+        """
+        清除用户实名认证信息
+        :param mobile:
+        :return:
+        """
+        auth_id = base_mysql.execute('select id  from lot_user_auth where mobile=%s',params=(mobile))
+        base_mysql.execute('delete from lot_user_auth where mobile=%s',params=(mobile))
+        base_mysql.execute('update lot_user_info set auth_id=NULL WHERE auth_id=%s',params=auth_id)
 #
 #     def get_bank_list(self):
 #         """

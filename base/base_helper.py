@@ -3,6 +3,10 @@ import hashlib
 import random
 import re
 import time
+import settings
+import json
+import requests
+from utilities.mysql_helper import MysqlHelper
 
 
 def md5(string):
@@ -64,3 +68,32 @@ def convert_to_timestamp(time_format):
     # 转换成时间戳
     timestamp = time.mktime(timeArray)
     return int(timestamp)
+
+def send_prize(detail_id, win_amount):
+    """
+    派奖
+    # 传入detail_id 和 中奖金额
+    :param detail_id:
+    :param win_amount:
+    :return:
+    """
+    ticket_no = int(str(detail_id) + str(random.randint(111110, 999990)))
+
+    if win_amount == 0:
+        bouns_status = 0
+    else:
+        bouns_status = 1
+
+    lottery_url = settings.API_BASE_URL + '/notify/bonus?amount={0}&deviceId=123&ticketNo={1}&detailId={2}&bonusStatus={3}'.format(
+        win_amount, ticket_no, detail_id, bouns_status)
+    response = requests.get(url=lottery_url)
+    response_content = json.loads(response.text)
+    if response_content['code'] == '200':
+        image_url = 'https://vlottery-hd1.oss-cn-hangzhou.aliyuncs.com/detail/1526548921421.jpg'
+        try:
+            MysqlHelper().send_prize_after(image_url=image_url,detail_id=detail_id,is_upload=1)
+            return True
+        except:
+            return False
+    else:
+        return False
