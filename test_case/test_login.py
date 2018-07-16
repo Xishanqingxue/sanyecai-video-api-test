@@ -49,12 +49,12 @@ class TestLoginApi(BaseCase):
         self.assertEqual(login_api.get_resp_message(),'success')
 
         result = json.loads(response.content)['result']
-        self.assertEqual(result['id'],MysqlHelper().get_user_details(self.user_nickname_not_auth)['id'])
-        self.assertEqual(result['userName'],MysqlHelper().get_user_details(self.user_nickname_not_auth)['user_name'])
+        self.assertEqual(result['id'],MysqlHelper().get_user_details(nickname=self.user_nickname_not_auth)['id'])
+        self.assertEqual(result['userName'],MysqlHelper().get_user_details(nickname=self.user_nickname_not_auth)['user_name'])
         self.assertEqual(result['userStatus'],1)
-        self.assertEqual(result['unionId'],MysqlHelper().get_user_details(self.user_nickname_not_auth)['union_id'])
-        self.assertEqual(result['nickname'],MysqlHelper().get_user_details(self.user_nickname_not_auth)['nickname'])
-        self.assertEqual(result['headPic'],MysqlHelper().get_user_details(self.user_nickname_not_auth)['head_pic'])
+        self.assertEqual(result['unionId'],MysqlHelper().get_user_details(nickname=self.user_nickname_not_auth)['union_id'])
+        self.assertEqual(result['nickname'],MysqlHelper().get_user_details(nickname=self.user_nickname_not_auth)['nickname'])
+        self.assertEqual(result['headPic'],MysqlHelper().get_user_details(nickname=self.user_nickname_not_auth)['head_pic'])
         self.assertEqual(result['platformId'],1)
         self.assertIsNone(result['authId'])
         self.assertIsNone(result['password'])
