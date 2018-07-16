@@ -106,7 +106,7 @@ class BaseApi(object):
         :return:
         """
         if self.response:
-            return json.loads(self.response.text)['msg']
+            return json.loads(self.response.text)['message']
 
     def get_resp_result(self):
         """
