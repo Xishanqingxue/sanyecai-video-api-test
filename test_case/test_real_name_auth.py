@@ -23,7 +23,7 @@ class TestRealNameAuthApi(BaseCase):
 
     def test_real_name_auth_success(self):
         """
-        测试短信验证码全大写实名认证成功
+        测试正常实名认证成功
         :return:
         """
         mobile = '1351112' + str(random.randint(1111, 9999))
@@ -53,6 +53,7 @@ class TestRealNameAuthApi(BaseCase):
                            'cardType': 1, 'verCode': sms_code.upper(), 'type': 'rz_sms_code'})
 
         self.assertEqual(real_name_api.get_resp_code(), 200)
+        self.assertEqual(real_name_api.get_resp_message(),"恭喜您!认证成功,可以正常购买彩票啦!")
 
     def test_real_name_auth_success_card_x(self):
         """
@@ -84,35 +85,8 @@ class TestRealNameAuthApi(BaseCase):
                            'cardType': 1, 'verCode': sms_code.upper(), 'type': 'rz_sms_code'})
 
         self.assertEqual(real_name_api.get_resp_code(), 200)
+        self.assertEqual(real_name_api.get_resp_message(),"恭喜您!认证成功,可以正常购买彩票啦!")
 
-    def test_real_name_auth_success_sms_code_lower(self):
-        """
-        测试短信验证码全小写实名认证成功
-        :return:
-        """
-        mobile = '1351113' + str(random.randint(1111, 9999))
-        self.mobile_list.append(mobile)
-        nickname = 'real_name3'
-        login_api = LoginApi()
-        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
-
-        self.assertEqual(login_api.get_resp_code(), 200)
-        self.assertEqual(login_api.get_resp_message(), u'success')
-
-        image_code_api = ImageCodeApi()
-        image_code_api.get({'mobile': mobile})
-
-        image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
-        sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
-
-        self.assertEqual(sms_code_api.get_resp_code(), 200)
-
-        sms_code = Redis().get_sms_code(mobile, type='rz')
-
-        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
-        real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': self.card_number,
-                           'cardType': 1, 'verCode': sms_code.lower(), 'type': 'rz_sms_code'})
 
     def test_real_name_auth_card_num_error(self):
         """
@@ -232,7 +206,7 @@ class TestRealNameAuthApi(BaseCase):
         image_code_api.get({'mobile': mobile})
 
         image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)

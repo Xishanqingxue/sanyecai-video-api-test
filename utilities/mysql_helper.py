@@ -163,7 +163,7 @@ class MysqlHelper(object):
         """
         auth_id = base_mysql.execute('select id  from lot_user_auth where mobile=%s',params=(mobile))
         base_mysql.execute('delete from lot_user_auth where mobile=%s',params=(mobile))
-        base_mysql.execute('update lot_user_info set auth_id=NULL WHERE auth_id=%s',params=auth_id)
+        base_mysql.execute('update lot_user_info set auth_id=NULL WHERE auth_id=%s',params=auth_id['id'])
 #
 #     def get_bank_list(self):
 #         """
