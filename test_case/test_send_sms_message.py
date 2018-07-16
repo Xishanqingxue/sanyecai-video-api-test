@@ -24,7 +24,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -43,7 +43,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'tx_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'tx_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -62,7 +62,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'tj_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'tj_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -81,7 +81,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -100,7 +100,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code.upper()})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code.upper()})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
         sms_code = Redis().get_sms_code(mobile, type='xg')
@@ -118,7 +118,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code.lower()})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code.lower()})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -137,7 +137,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -150,7 +150,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 101)
         self.assertEqual(sms_code_api.get_resp_message(), u'短信已发送,请稍等,如未收到,请在1分钟后重新发送!')
@@ -166,7 +166,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 424)
         self.assertEqual(sms_code_api.get_resp_message(),u'手机号格式错误!')
@@ -183,7 +183,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': None, 'type': 'xg_sms_code', 'img_code': image_code})
+        sms_code_api.get({'mobile': None, 'type': 'xg_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -199,7 +199,7 @@ class TestSendSmsMessageApi(BaseCase):
 
         image_code = Redis().get_image_code(mobile)
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': None, 'img_code': image_code})
+        sms_code_api.get({'mobile': mobile, 'type': None, 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
@@ -211,6 +211,6 @@ class TestSendSmsMessageApi(BaseCase):
         """
         mobile = '1350107' + str(random.randint(1111, 9999))
         sms_code_api = SendMessageApi()
-        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'img_code': None})
+        sms_code_api.get({'mobile': mobile, 'type': 'xg_sms_code', 'imgCode': None})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)

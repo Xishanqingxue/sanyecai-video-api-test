@@ -8,4 +8,4 @@ class SendMessageApi(BaseApi):
     url = "/finan/sendMessage"
 
     def build_custom_param(self, data):
-        return {'mobile':data['mobile'],'type':data['type'],'img_code':data['img_code']}
+        return {'mobile':data['mobile'],'type':data['type'],'imgCode':data['imgCode']}
