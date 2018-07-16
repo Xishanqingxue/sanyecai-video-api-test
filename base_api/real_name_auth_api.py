@@ -9,5 +9,5 @@ class RealNameAuthApi(LoginBaseApi):
     url = "/realNameAuth"
 
     def build_custom_param(self, data):
-        return {'real_name': data['real_name'], 'mobile': data['mobile'], 'card_no': data['card_no'],
+        return {'realName': data['real_name'], 'mobile': data['mobile'], 'cardNo': data['card_no'],
                 'cardType': data['cardType'], 'verCode': data['verCode'],'type':data['type']}
