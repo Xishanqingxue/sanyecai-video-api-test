@@ -6,7 +6,7 @@ class RealNameAuthApi(LoginBaseApi):
     """
     实名认证
     """
-    url = "/realNameAuth"
+    url = "/finan/realNameAuth"
 
     def build_custom_param(self, data):
         return {'realName': data['realName'], 'mobile': data['mobile'], 'cardNo': data['cardNo'],

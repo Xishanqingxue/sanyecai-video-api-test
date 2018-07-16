@@ -239,7 +239,7 @@ class TestRealNameAuthApi(BaseCase):
 
         sms_code = Redis().get_sms_code(mobile, type='rz')
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': '410223200202102231',
                            'cardType': 1, 'verCode': sms_code, 'type': 'rz_sms_code'})
 
