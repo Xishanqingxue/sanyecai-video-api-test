@@ -30,7 +30,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name1'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -63,7 +63,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name2'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -72,14 +72,14 @@ class TestRealNameAuthApi(BaseCase):
         image_code_api.get({'mobile': mobile})
 
         image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
         sms_code = Redis().get_sms_code(mobile, type='rz')
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': '51052119850508797x',
                            'cardType': 1, 'verCode': sms_code.upper(), 'type': 'rz_sms_code'})
 
@@ -94,7 +94,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name3'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -103,14 +103,14 @@ class TestRealNameAuthApi(BaseCase):
         image_code_api.get({'mobile': mobile})
 
         image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
         sms_code = Redis().get_sms_code(mobile, type='rz')
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': self.card_number,
                            'cardType': 1, 'verCode': sms_code.lower(), 'type': 'rz_sms_code'})
 
@@ -123,7 +123,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name4'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -132,14 +132,14 @@ class TestRealNameAuthApi(BaseCase):
         image_code_api.get({'mobile': mobile})
 
         image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
         sms_code = Redis().get_sms_code(mobile, type='rz')
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': '370481200602058511',
                            'cardType': 1, 'verCode': sms_code, 'type': 'rz_sms_code'})
 
@@ -155,7 +155,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name5'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -164,12 +164,12 @@ class TestRealNameAuthApi(BaseCase):
         image_code_api.get({'mobile': mobile})
 
         image_code = Redis().get_image_code(mobile)
-        sms_code_api = LoginSendMessageApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        sms_code_api = LoginSendMessageApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         sms_code_api.get({'mobile': mobile, 'type': 'rz_sms_code', 'imgCode': image_code})
 
         self.assertEqual(sms_code_api.get_resp_code(), 200)
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': self.card_number,
                            'cardType': 1, 'verCode': '1342', 'type': 'rz_sms_code'})
 
@@ -185,7 +185,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name6'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')
@@ -201,13 +201,13 @@ class TestRealNameAuthApi(BaseCase):
 
         sms_code = Redis().get_sms_code(mobile, type='rz')
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': self.card_number,
                            'cardType': 1, 'verCode': sms_code, 'type': 'rz_sms_code'})
 
         self.assertEqual(real_name_api.get_resp_code(), 200)
 
-        real_name_api = RealNameAuthApi(unionID=self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
+        real_name_api = RealNameAuthApi(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
         real_name_api.get({'realName': self.real_name, 'mobile': mobile, 'cardNo': self.card_number,
                            'cardType': 1, 'verCode': sms_code, 'type': 'rz_sms_code'})
 
@@ -223,7 +223,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name7'
         login_api = LoginApi()
-        login_api.login(unionID=self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')

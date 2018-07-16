@@ -15,13 +15,13 @@ class LoginApi(BaseApi):
     """
     url = '/login'
 
-    def login(self, unionID=settings.TEST_UNION_ID, source=settings.TEST_SOURCE, nickname=settings.TEST_NICKNAME,
+    def login(self, union_id=settings.TEST_UNION_ID, source=settings.TEST_SOURCE, nickname=settings.TEST_NICKNAME,
               head_pic=settings.TEST_HEAD_PIC, only_token=False):
         # 接口登录
         sign_text = "{0}_{1}_{2}_{3}67!@#$%^&*()_(&%$#!_)(*&^%$#@!rftgy2345678uhij".format(unionID, source,
                                                                                            nickname, head_pic)
         sign_format = md5(sign_text)
-        data = {'unionId': unionID, 'source': source, 'nickname': nickname, 'sign': sign_format,
+        data = {'unionId': union_id, 'source': source, 'nickname': nickname, 'sign': sign_format,
                 'head_pic': head_pic, 'ip': '61.149.11.114', 'uv': 'web'}
         logger.info('Data:{0}'.format(data))
         self.response = requests.get(url=self.api_url(), params=data, headers=settings.API_HEADERS, verify=False)
