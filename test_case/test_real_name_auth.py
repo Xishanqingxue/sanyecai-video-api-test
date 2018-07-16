@@ -223,7 +223,7 @@ class TestRealNameAuthApi(BaseCase):
         self.mobile_list.append(mobile)
         nickname = 'real_name7'
         login_api = LoginApi()
-        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=head_pic)
+        login_api.login(self.union_id, source=1, nickname=nickname, head_pic=self.head_pic)
 
         self.assertEqual(login_api.get_resp_code(), 200)
         self.assertEqual(login_api.get_resp_message(), u'success')

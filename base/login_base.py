@@ -23,7 +23,7 @@ class LoginBaseApi(BaseApi):
         获取token
         :return:
         """
-        token = LoginApi().login(unionID=self.union_id, source=self.source, nickname=self.nickname,
+        token = LoginApi().login(self.union_id, source=self.source, nickname=self.nickname,
                                  head_pic=self.head_pic, only_token=True)
         return token
     def get(self, data=None):
