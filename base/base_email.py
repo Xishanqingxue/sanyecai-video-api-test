@@ -40,6 +40,7 @@ class BaseMail(object):
         msg['Accept-Language'] = 'zh-CN'
         msg["Accept-Charset"] = "ISO-8859-1,utf-8"
 
+
         # 测试报告H5源码为邮件主体
         html_msg = open(self.report_file,'r',encoding="utf-8").read()
         msg.attach(MIMEText(html_msg, 'html', 'utf-8'))
@@ -62,7 +63,7 @@ class BaseMail(object):
 
         # HTML格式的附件
         html_application = MIMEApplication(open(self.report_file, 'rb').read())
-        file_name = 'Ajax接口自动化测试报告详细版-{0}.html'.format((datetime.datetime.now()).strftime("%Y%m%d"))
+        file_name = '自动化测试报告详细版-{0}.html'.format((datetime.datetime.now()).strftime("%Y%m%d"))
         html_application.add_header('Content-Disposition', 'attachment', filename=file_name)
         msg.attach(html_application)
 
@@ -81,4 +82,3 @@ class BaseMail(object):
             client.quit()
         except Exception:
             logger.error('Email sent failed!')
-            pass
