@@ -102,3 +102,14 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+settings_local.py
+
+spike*.py
+
+.idea/**
+
+*.log
+
+log/**
+result/**
