@@ -18,7 +18,7 @@ class LoginApi(BaseApi):
     def login(self, union_id=settings.TEST_UNION_ID, source=settings.TEST_SOURCE, nickname=settings.TEST_NICKNAME,
               head_pic=settings.TEST_HEAD_PIC, only_token=False):
         # 接口登录
-        sign_text = "{0}_{1}_{2}_{3}67!@#$%^&*()_(&%$#!_)(*&^%$#@!rftgy2345678uhij".format(unionID, source,
+        sign_text = "{0}_{1}_{2}_{3}67!@#$%^&*()_(&%$#!_)(*&^%$#@!rftgy2345678uhij".format(union_id, source,
                                                                                            nickname, head_pic)
         sign_format = md5(sign_text)
         data = {'unionId': union_id, 'source': source, 'nickname': nickname, 'sign': sign_format,
