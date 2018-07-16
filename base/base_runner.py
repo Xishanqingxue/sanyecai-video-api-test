@@ -24,7 +24,7 @@ class BaseRunner(object):
         logger.info('Create test suite success.')
         for test_suite in discover:
             for test_case in test_suite:
-                test_unit.addTests(test_case)
+                test_unit.addTest(test_case)
         logger.info('Use cases are added to the test suite for completion.')
         logger.info('All use cases are added in the following order.')
         logger.info('##### ##### ' * 7)
