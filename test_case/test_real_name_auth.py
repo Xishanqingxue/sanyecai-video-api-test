@@ -224,5 +224,8 @@ class TestRealNameAuthApi(BaseCase):
     def tearDown(self):
         mysql = MysqlHelper()
         for x in self.mobile_list:
-            mysql.delete_user_auth(x)
+            try:
+                mysql.delete_user_auth(x)
+            except:
+                pass
         mysql.delete_user(self.union_id)

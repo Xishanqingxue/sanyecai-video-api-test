@@ -45,7 +45,8 @@ MAIL_SERVER = 'smtp.163.com'
 MAIL_FROM = '13501077762@163.com'
 MAIL_FROM_PASSWORD = 'yinglong123'
 MAIL_HEADER = '吉刮彩接口测试执行结果'
-MAIL_TO = ['gaoyinglong@kong.net','liulei@kong.net','zhangmin@wozhongla.com']
+# MAIL_TO = ['gaoyinglong@kong.net','liulei@kong.net','zhangmin@wozhongla.com']
+MAIL_TO = ['gaoyinglong@kong.net']
 
 # Mysql配置
 TEST_MYSQL_CONFIG = {'host': '192.168.102.91', 'port': 3306, 'user': 'root', 'password': 'loto5522','db':'video_lottery'}
