@@ -28,12 +28,10 @@ class TestLoginApi(BaseCase):
         self.assertEqual(login_api.get_resp_message(),'success')
 
         result = json.loads(response.content)['result']
-        self.assertEqual(result['id'],get_user_info(nickname=settings.TEST_NICKNAME, cul='id'))
-        self.assertEqual(result['userName'],get_user_info(nickname=settings.TEST_NICKNAME, cul='name'))
         self.assertEqual(result['userStatus'],1)
-        self.assertEqual(result['unionId'],get_user_info(nickname=settings.TEST_NICKNAME, cul='union_Id'))
+        self.assertEqual(result['unionId'],settings.TEST_UNION_ID)
         self.assertEqual(result['nickname'],settings.TEST_NICKNAME)
-        self.assertEqual(result['headPic'],get_user_info(nickname=settings.TEST_NICKNAME, cul='head_pic'))
+        self.assertEqual(result['headPic'],settings.TEST_HEAD_PIC)
         self.assertEqual(result['platformId'],settings.TEST_SOURCE)
         self.assertEqual(result['authId'],MysqlHelper().get_user_details()['auth_id'])
         self.assertIsNone(result['password'])
