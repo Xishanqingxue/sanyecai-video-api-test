@@ -2,6 +2,7 @@
 from base_api.send_message_api import LoginSendMessageApi
 from base_api.image_code_api import ImageCodeApi
 from base_api.real_name_auth_api import RealNameAuthApi
+from base_api.get_user_info_api import GetUserInfo
 from utilities.mysql_helper import MysqlHelper
 from base.base_case_api import BaseCase
 from utilities.redis_helper import Redis
@@ -27,6 +28,24 @@ class TestRealNameAuthApi(BaseCase):
         mobile = '1351112' + str(random.randint(1111, 9999))
         nickname = 'ceshi000001'
 
+        # 实名认证前获取用户信息
+        user_info_api = GetUserInfo(union_id,nickname=nickname,head_pic=self.head_pic,source=1)
+        user_info_api.get({"unionId":union_id,"source":1})
+
+        self.assertEqual(user_info_api.get_resp_code(),200)
+
+        result = user_info_api.get_resp_result()
+        self.assertIsNotNone(result['userName'])
+        self.assertEqual(result['userStatus'],1)
+        self.assertIsNone(result['password'])
+        self.assertIsNone(result['email'])
+        self.assertEqual(result['unionId'],union_id)
+        self.assertEqual(result['nickname'],nickname)
+        self.assertEqual(result['headPic'],self.head_pic)
+        self.assertEqual(result['platformId'],1)
+        self.assertIsNone(result['authId'])
+
+        # 实名认证流程
         image_code_api = ImageCodeApi()
         image_code_api.get({'mobile': mobile})
 
@@ -44,6 +63,23 @@ class TestRealNameAuthApi(BaseCase):
 
         self.assertEqual(real_name_api.get_resp_code(), 200)
         self.assertEqual(real_name_api.get_resp_message(),"恭喜您!认证成功,可以正常购买彩票啦!")
+
+        # 实名认证后获取用户信息
+        user_info_api = GetUserInfo(union_id, nickname=nickname, head_pic=self.head_pic, source=1)
+        user_info_api.get({"unionId": union_id, "source": 1})
+
+        self.assertEqual(user_info_api.get_resp_code(), 200)
+
+        result = user_info_api.get_resp_result()
+        self.assertIsNotNone(result['userName'])
+        self.assertEqual(result['userStatus'], 1)
+        self.assertIsNone(result['password'])
+        self.assertIsNone(result['email'])
+        self.assertEqual(result['unionId'], union_id)
+        self.assertEqual(result['nickname'], nickname)
+        self.assertEqual(result['headPic'], self.head_pic)
+        self.assertEqual(result['platformId'], 1)
+        self.assertIsNotNone(result['authId'])
 
     def test_real_name_auth_success_card_x(self):
         """
