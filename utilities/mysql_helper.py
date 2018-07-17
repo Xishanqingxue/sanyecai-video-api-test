@@ -54,22 +54,22 @@ class MysqlHelper(object):
         details = base_mysql.execute('select * from lot_user_info where nickname=%s',params=(nickname))
         return details
 
-    def delete_user(self,nickname):
+    def delete_user(self,union_id):
         """
         删除用户信息
         :param union_id:
         :return:
         """
         try:
-            user_id = base_mysql.execute('select id from lot_user_info where nickname=%s',params=(nickname))['id']
-            base_mysql.execute('delete from lot_user_info where nickname=%s',params=(nickname))
-            base_mysql.execute('delete from lot_account where user_id=%s',params=user_id)
+            user_id = base_mysql.execute('select id from lot_user_info where union_id=%s', params=(union_id))['id']
+            base_mysql.execute('delete from lot_user_info where union_id=%s', params=(union_id))
+            base_mysql.execute('delete from lot_account where user_id=%s', params=user_id)
         except:
             logger.error('Delete user failed!')
 
     # def get_sell_lottery_list(self,id):
     #     """
-    #     获取某ID的彩种列表
+    #     获取某ID的彩种信息
     #     :param id:
     #     :return:
     #     """
@@ -102,32 +102,32 @@ class MysqlHelper(object):
     #     order_list = base_mysql.execute('select * from lot_order where user_id=%s',params=(user_id),is_fetchone=False)
     #     return order_list
     #
-    # def delete_account_details(self,user_id):
-    #     """
-    #     删除用户消费记录
-    #     :param user_id:
-    #     :return:
-    #     """
-    #     base_mysql.execute('delete from lot_account_detail where user_id=%s',params=(user_id))
+    def delete_account_details(self,user_id):
+        """
+        删除用户消费记录
+        :param user_id:
+        :return:
+        """
+        base_mysql.execute('delete from lot_account_detail where user_id=%s',params=(user_id))
 
 
-#     def get_lot_account_info(self,user_id):
-#         """
-#         获取用户account信息
-#         :param union_id:
-#         :return:
-#         """
-#         account_info = base_mysql.execute('select * from lot_account where user_id = %s',params=(user_id))
-#         return account_info
+    def get_lot_account_info(self,user_id):
+        """
+        获取用户account信息
+        :param union_id:
+        :return:
+        """
+        account_info = base_mysql.execute('select * from lot_account where user_id = %s',params=(user_id))
+        return account_info
 #
-#     def get_lot_user_info(self,id):
-#         """
-#         获取用户user_info信息
-#         :param id:
-#         :return:
-#         """
-#         user_info = base_mysql.execute('select * from lot_user_info where id = %s',params=(id))
-#         return user_info
+    def get_lot_user_info(self,id):
+        """
+        获取用户user_info信息
+        :param id:
+        :return:
+        """
+        user_info = base_mysql.execute('select * from lot_user_info where id = %s',params=(id))
+        return user_info
 #
 #     def get_province_name(self,id):
 #         """
@@ -155,66 +155,70 @@ class MysqlHelper(object):
 #         """
 #         base_mysql.execute("delete from lot_order_detail where order_id=%s",params=(order_id))
 #
-    def delete_user_auth(self,mobile):
+    def delete_user_auth(self,card_no):
         """
         清除用户实名认证信息
         :param mobile:
         :return:
         """
-        auth_id = base_mysql.execute('select id  from lot_user_auth where mobile=%s',params=(mobile))
-        base_mysql.execute('delete from lot_user_auth where mobile=%s',params=(mobile))
-        base_mysql.execute('update lot_user_info set auth_id=NULL WHERE auth_id=%s',params=auth_id['id'])
+        try:
+            auth_id = base_mysql.execute('select id  from lot_user_auth where card_no=%s',params=(card_no))
+            user_id = base_mysql.execute('select id from lot_user_info where auth_id=%s',params=(auth_id['id']))
+            base_mysql.execute('delete from lot_user_auth where card_no=%s',params=(card_no))
+            base_mysql.execute('update lot_user_info set auth_id="" WHERE id=%s',params=user_id['id'])
+        except:
+            pass
 #
-#     def get_bank_list(self):
-#         """
-#         获取银行列表
-#         :return:
-#         """
-#         bank_list = base_mysql.execute('select * from lot_bank',is_fetchone=False)
-#         return bank_list
+    def get_bank_list(self):
+        """
+        获取银行列表
+        :return:
+        """
+        bank_list = base_mysql.execute('select * from lot_bank',is_fetchone=False)
+        return bank_list
 #
-#     def get_user_auth(self,auth_id):
-#         """
-#         获取用户lot_user_auth信息
-#         :param auth_id:
-#         :return:
-#         """
-#         auth = base_mysql.execute('select * from lot_user_auth where id=%s',params=(auth_id))
-#         return auth
+    def get_user_auth(self,auth_id):
+        """
+        获取用户lot_user_auth信息
+        :param auth_id:
+        :return:
+        """
+        auth = base_mysql.execute('select * from lot_user_auth where id=%s',params=(auth_id))
+        return auth
 #
-#     def fix_user_mobile(self,auth_id,mobile):
-#         """
-#         修改用户的绑定手机号
-#         :param auth_id:
-#         :param mobile:
-#         :return:
-#         """
-#         base_mysql.execute('update lot_user_auth set mobile=%s where id=%s',params=(mobile,auth_id))
+    def fix_user_mobile(self,auth_id,mobile):
+        """
+        修改用户的绑定手机号
+        :param auth_id:
+        :param mobile:
+        :return:
+        """
+        base_mysql.execute('update lot_user_auth set mobile=%s where id=%s',params=(mobile,auth_id))
 #
-#     def delete_bind_card(self,auth_id):
-#         """
-#         删除用户绑卡信息
-#         :param auth_id:
-#         :return:
-#         """
-#         base_mysql.execute('delete from lot_user_binding where auth_id=%s',params=(auth_id))
+    def delete_bind_card(self,auth_id):
+        """
+        删除用户绑卡信息
+        :param auth_id:
+        :return:
+        """
+        base_mysql.execute('delete from lot_user_binding where auth_id=%s',params=(auth_id))
 #
-#     def fix_user_withdraw_amount(self,auth_id,amount):
-#         """
-#         修改用户提现额度
-#         :param auth_id:
-#         :param amount:
-#         :return:
-#         """
-#         base_mysql.execute('update lot_user_auth set amount_of_cash=%s where id=%s',params=(amount,auth_id))
+    def fix_user_withdraw_amount(self,auth_id,amount):
+        """
+        修改用户提现额度
+        :param auth_id:
+        :param amount:
+        :return:
+        """
+        base_mysql.execute('update lot_user_auth set amount_of_cash=%s where id=%s',params=(amount,auth_id))
 #
-#     def delete_user_withdraw_log(self,auth_id):
-#         """
-#         删除用户提现记录
-#         :param auth_id:
-#         :return:
-#         """
-#         base_mysql.execute('delete from lot_present_record where auth_id=%s',params=(auth_id))
+    def delete_user_withdraw_log(self,auth_id):
+        """
+        删除用户提现记录
+        :param auth_id:
+        :return:
+        """
+        base_mysql.execute('delete from lot_present_record where auth_id=%s',params=(auth_id))
 #
     def send_prize_after(self,image_url,detail_id,is_upload=1):
         """

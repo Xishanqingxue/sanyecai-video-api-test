@@ -10,22 +10,23 @@ logger = BaseLogger(__name__).get_logger()
 
 class LoginBaseApi(BaseApi):
 
-    def __init__(self, union_id, nickname=settings.TEST_NICKNAME, source=settings.TEST_SOURCE,
+    def __init__(self, union_id = settings.TEST_UNION_ID, nickname=settings.TEST_NICKNAME, source=settings.TEST_SOURCE,
                  head_pic=settings.TEST_HEAD_PIC, *args, **kwargs):
         super(LoginBaseApi, self).__init__(*args, **kwargs)
         self.union_id = union_id
         self.source = source
         self.nickname = nickname
         self.head_pic = head_pic
+        self.token = None
 
     def get_token_id(self):
         """
         获取token
         :return:
         """
-        token = LoginApi().login(self.union_id, source=self.source, nickname=self.nickname,
+        self.token = LoginApi().login(self.union_id, source=self.source, nickname=self.nickname,
                                  head_pic=self.head_pic, only_token=True)
-        return token
+        return self.token
     def get(self, data=None):
         """
         请求方式：GET
@@ -40,3 +41,6 @@ class LoginBaseApi(BaseApi):
         self.response = s.get(url=self.api_url(), params=request_data, headers=self.headers)
         logger.info('Headers:{0}'.format(self.response.request.headers))
         logger.info('Response:{0}'.format(self.response.text))
+
+    def get_token(self):
+        return self.token

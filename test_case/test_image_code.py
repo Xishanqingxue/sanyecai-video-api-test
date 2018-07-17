@@ -23,17 +23,6 @@ class TestImageCodeApi(BaseCase):
         image_code = Redis().get_image_code(self.mobile)
         self.assertEqual(len(image_code), 4)
 
-    @unittest.skip(reason=settings.SKIP_REASON)
-    def test_get_image_code_mobile_null(self):
-        """
-        测试请求接口手机号为None
-        :return:
-        """
-        image_code_api = ImageCodeApi()
-        image_code_api.get({'mobile': None})
-
-        self.assertEqual(image_code_api.get_resp_code(), 200)
-
     def test_get_image_code_mobile_error(self):
         """
         测试请求接口手机号格式不对可以获取成功

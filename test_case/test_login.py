@@ -9,12 +9,10 @@ class TestLoginApi(BaseCase):
     """
     登录
     """
-    user_nickname_not_auth = '夏夏夏夏夏'
 
     @classmethod
     def setUpClass(cls):
         MysqlHelper().fix_user_money(balance=0)
-        MysqlHelper().delete_user(nickname=cls.user_nickname_not_auth)
 
     def test_login_success(self):
         """
@@ -64,4 +62,3 @@ class TestLoginApi(BaseCase):
     @classmethod
     def tearDownClass(cls):
         MysqlHelper().fix_user_money(balance=0)
-        MysqlHelper().delete_user(nickname=cls.user_nickname_not_auth)

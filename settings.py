@@ -17,7 +17,7 @@ if os.path.exists(SETTING_LOCAL):
     with open(SETTING_LOCAL, 'r') as f:
         exec(f.read())
 
-API_BASE_URL = 'http://47.96.126.136:9081/video-lottery-api'
+API_BASE_URL = 'http://172.23.101.26:8081/video-lottery-api'
 
 
 # 请求HEADERS配置
@@ -49,10 +49,10 @@ MAIL_HEADER = '吉刮彩接口测试执行结果'
 MAIL_TO = ['gaoyinglong@kong.net']
 
 # Mysql配置
-TEST_MYSQL_CONFIG = {'host': '192.168.102.91', 'port': 3306, 'user': 'root', 'password': 'loto5522','db':'video_lottery'}
+TEST_MYSQL_CONFIG = {'host': '172.23.101.26', 'port': 3306, 'user': 'root', 'password': 'loto5522','db':'video_lottery'}
 
 # Redis配置
-REDIS_CONFIG = {'host': '192.168.102.91', 'port': 6379,'db':0}
+REDIS_CONFIG = {'host': '172.23.101.26', 'port': 6379,'db':0}
 
 
 WAIT_TIME = 10
