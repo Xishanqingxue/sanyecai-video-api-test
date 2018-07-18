@@ -2,7 +2,7 @@
 from base.login_base import LoginBaseApi
 from base.base_api import BaseApi
 
-class BetBetApi(LoginBaseApi):
+class BetApi(LoginBaseApi):
     """
     购彩
     """
@@ -11,7 +11,8 @@ class BetBetApi(LoginBaseApi):
     def build_custom_param(self, data):
         return {'lotoId':data['lotoId'],'nums':data['nums'],'buyType':data['buyType'],
                 'window':data['window'],'roomId':data['roomId'],'shareMethod':data['shareMethod'],
-                'memberNum':data['memberNum'],'provinceId':data['provinceId']}
+                'memberNum':data['memberNum'],'provinceId':data['provinceId'],'source':data['source']}
+
 
 class BetBetApiNotLogin(BaseApi):
     """

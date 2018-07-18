@@ -8,3 +8,6 @@ class WaitRichApi(LoginBaseApi):
     """
     url = "/tabu/waitRich"
 
+    def build_custom_param(self, data):
+        return {'roomId':data['roomId']}
+

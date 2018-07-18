@@ -29,7 +29,7 @@ class BaseApi(object):
         构建共有入参
         :return:
         """
-        return {'room_id':settings.DW_ROOM_ID
+        return {
 
         }
 

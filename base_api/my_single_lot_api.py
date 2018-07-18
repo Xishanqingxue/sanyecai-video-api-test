@@ -4,7 +4,7 @@ from base.login_base import LoginBaseApi
 
 class MySingleLotApi(LoginBaseApi):
     """
-获取用户单买(自买)彩票情况
+获取用户单买(自买)彩票详情
 
 detailStatus
 下单状态

@@ -5,23 +5,23 @@ from base.base_redis import BaseRedis
 class Redis(BaseRedis):
 
 
-    def get_stock_day_cache(self,stock_id):
+    def get_stock_day_cache(self,lottery_id):
         """
         获取彩种库存
         :param id:
         :return:
         """
-        numbers = self.get('stock_day_cache_{0}'.format(stock_id))
+        numbers = self.get('stock_day_cache_{0}'.format(lottery_id))
         return numbers
 
-    def fix_stock_day_cache(self,stock_id,num):
+    def fix_stock_day_cache(self,lottery_id,num):
         """
         修改彩种库存数量
         :param stock_id:
         :param num:
         :return:
         """
-        self.set('stock_day_cache_{0}'.format(stock_id),num)
+        self.set('stock_day_cache_{0}'.format(lottery_id),num)
 
     def clean_user_info(self,token):
         """
@@ -86,3 +86,12 @@ class Redis(BaseRedis):
         :return:
         """
         self.set('tx_total_money{0}'.format(auth_id),money)
+
+    def get_user_withdraw_money_today(self,auth_id):
+        """
+        获取用户当天提现额度
+        :param auth_id:
+        :return:
+        """
+        amount = self.get('tx_total_money{0}'.format(auth_id))
+        return amount
