@@ -28,12 +28,10 @@ class BaseLogger(object):
             file_handler.setLevel(logging.DEBUG)  # 输出到file的log等级的开关
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
-
-            # 再创建一个handler，用于输出到控制台
+        else:
+            # 创建一个handler，用于输出到控制台
             console_handler = logging.StreamHandler()
             console_handler.setLevel(logging.DEBUG)  # 输出到console的log等级的开关
             console_handler.setFormatter(formatter)
-
-            # 将logger添加到handler里面
             self.logger.addHandler(console_handler)
         return self.logger
