@@ -95,14 +95,17 @@ class MysqlHelper(object):
                                      params=(room_id), is_fetchone=False)
         return lottery
 
-    def fix_user_money(self, balance, nickname=settings.TEST_NICKNAME):
+    def fix_user_money(self, balance, nickname=settings.TEST_NICKNAME,type=1):
         """
         修改用户金额
         :param money:
         :return:
         """
         auth_id = base_mysql.execute('select auth_id from lot_user_info where nickname=%s', params=(nickname))
-        base_mysql.execute('update lot_account set balance=%s where auth_id=%s', params=(balance, auth_id['auth_id']))
+        if type == 3:
+            base_mysql.execute('update lot_account set balance=%s where auth_id=%s',params=(balance, auth_id['auth_id']))
+        else:
+            base_mysql.execute('update lot_account set balance=%s where auth_id=%s and account_type=%s', params=(balance, auth_id['auth_id'],type))
 
     def delete_lot_order(self, user_id):
         """

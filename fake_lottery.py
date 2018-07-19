@@ -3,6 +3,7 @@ import time
 import json
 import random
 import pymysql.cursors
+import threading
 
 
 def execute(sql, params=None, db='video_lottery'):
