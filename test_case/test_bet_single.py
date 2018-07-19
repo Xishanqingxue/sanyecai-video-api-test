@@ -51,7 +51,6 @@ class TestBetSingleApi(BaseCase):
 
         Redis().fix_stock_day_cache(self.lottery_id,9999) # 保证库存充足
         MysqlHelper().fix_stock_user() # 保证所有工位上所有票种数量充足
-        # Redis().fix_user_withdraw_money_today(self.auth_id, 0)
 
 
     def action(self,**kwargs):
@@ -545,11 +544,6 @@ class TestBetSingleApi(BaseCase):
             else:
                 self.assertTrue(False,msg='今日彩种销量榜未出现该彩种！')
 
-            # 校验增加提现额度
-            # user_withdraw_money = Redis().get_user_withdraw_money_today(self.auth_id)
-            # self.assertEqual(int(user_withdraw_money),0)
-
-
         elif 10000 > win_amount > 0:
 
             # 我得单买记录列表---中小奖
@@ -721,11 +715,6 @@ class TestBetSingleApi(BaseCase):
             else:
                 self.assertTrue(False, msg='今日彩种销量榜未出现该彩种！')
 
-            # 校验增加提现额度
-            # user_withdraw_money = Redis().get_user_withdraw_money_today(self.auth_id)
-            # self.assertEqual(int(user_withdraw_money),win_amount * num)
-
-
         elif win_amount >= 10000:
 
             # 我得单买记录列表---中小奖
@@ -894,10 +883,6 @@ class TestBetSingleApi(BaseCase):
                             self.assertEqual(int(big_award_after) - int(big_award_before),num)
             else:
                 self.assertTrue(False, msg='今日彩种销量榜未出现该彩种！')
-
-            # 校验增加提现额度
-            # user_withdraw_money = Redis().get_user_withdraw_money_today(self.auth_id)
-            # self.assertEqual(int(user_withdraw_money),win_amount * num)
 
         # 单买等待队列
         wait_rich_api = WaitRichApi()
@@ -1108,5 +1093,4 @@ class TestBetSingleApi(BaseCase):
         Redis().fix_stock_day_cache(lottery_id=self.lottery_id, num=9999)
         mysql.fix_user_money(balance=0)
         mysql.delete_account_details(self.user_id)
-        # Redis.fix_user_withdraw_money_today(self.auth_id,0)
         time.sleep(2)

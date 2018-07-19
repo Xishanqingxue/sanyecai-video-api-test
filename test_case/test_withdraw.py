@@ -25,7 +25,6 @@ class TestWithDrawApplyApi(BaseCase):
         测试账户剩余提现额度不足时申请提现
         :return:
         """
-
         image_code_api = ImageCodeApi()
         image_code_api.get({'mobile': self.mobile})
 
@@ -88,7 +87,6 @@ class TestWithDrawApplyApi(BaseCase):
         """
         Redis().fix_user_withdraw_times(self.auth_id,0)
         MysqlHelper().fix_user_money(balance=100)
-        MysqlHelper().fix_user_withdraw_amount(auth_id=self.auth_id,amount=100)
         image_code_api = ImageCodeApi()
         image_code_api.get({'mobile': self.mobile})
 
@@ -142,15 +140,14 @@ class TestWithDrawApplyApi(BaseCase):
         self.assertEqual(result[0]['tradeType'], 3)
         self.assertEqual(result[0]['amountS'], -100.0)
     #
-    def test_withdraw_apply_amount_max_than_5000(self):
+    def test_withdraw_apply_amount_max_than_500000(self):
         """
-        测试当天提现金额已达5000后申请提现失败
+        测试当天单次提现金额超过500000
         :return:
         """
+        Redis().fix_user_withdraw_money_today(self.auth_id,0)
         Redis().fix_user_withdraw_times(self.auth_id,1)
-        Redis().fix_user_withdraw_money_today(self.auth_id,500000)
-        MysqlHelper().fix_user_money(balance=100)
-        MysqlHelper().fix_user_withdraw_amount(auth_id=self.auth_id,amount=100)
+        MysqlHelper().fix_user_money(balance=500000)
         image_code_api = ImageCodeApi()
         image_code_api.get({'mobile': self.mobile})
 
@@ -161,14 +158,36 @@ class TestWithDrawApplyApi(BaseCase):
         sms_code = Redis().get_sms_code(self.mobile, type='tx')
 
         withdraw_api = WithdrawApplyApi()
-        withdraw_api.get({'amount': 100, 'source': 1, 'mobile':self.mobile ,
+        withdraw_api.get({'amount': 500000, 'source': 1, 'mobile':self.mobile ,
+                'verCode': sms_code, 'type': 'tx_sms_code','bindingId':2})
+        self.assertEqual(withdraw_api.get_resp_code(),421)
+        self.assertEqual(withdraw_api.get_resp_message(),u'在线提现金额最少10元,最大5000元,请修改后重试,超过最高5000元请联系客服!')
+
+    def test_withdraw_apply_amount_max_than_5000(self):
+        """
+        测试提现额度不足
+        :return:
+        """
+        Redis().fix_user_withdraw_money_today(self.auth_id,500)
+        Redis().fix_user_withdraw_times(self.auth_id,1)
+        MysqlHelper().fix_user_money(balance=500000)
+        image_code_api = ImageCodeApi()
+        image_code_api.get({'mobile': self.mobile})
+
+        image_code = Redis().get_image_code(self.mobile)
+        sms_code_api = LoginSendMessageApi()
+        sms_code_api.get({'mobile': self.mobile, 'type': 'tx_sms_code', 'imgCode': image_code})
+
+        sms_code = Redis().get_sms_code(self.mobile, type='tx')
+
+        withdraw_api = WithdrawApplyApi()
+        withdraw_api.get({'amount': 500000, 'source': 1, 'mobile':self.mobile ,
                 'verCode': sms_code, 'type': 'tx_sms_code','bindingId':2})
         self.assertEqual(withdraw_api.get_resp_code(),423)
-        self.assertEqual(withdraw_api.get_resp_message(),u'当天剩余提现额度不足,请明日重试!')
+        self.assertEqual(withdraw_api.get_resp_message(),u'当天剩余提现额度为: 499500元,请修改后重试!')
 
     def tearDown(self):
-        MysqlHelper().fix_user_withdraw_amount(auth_id=self.auth_id,amount=0)
         MysqlHelper().delete_user_withdraw_log(auth_id=self.auth_id)
         MysqlHelper().delete_account_details(MysqlHelper().get_user_details()['id'])
         Redis().fix_user_withdraw_times(self.auth_id, 0)
-        Redis().fix_user_withdraw_money_today(self.auth_id, 0)
+        Redis().fix_user_withdraw_money_today(self.auth_id,0)
